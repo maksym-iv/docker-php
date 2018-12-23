@@ -1,13 +1,15 @@
 set -e
 
+maintainer="mack"
 version="5.5"
 release="stretch"
 apps="cli fpm apache"
-# tags="${version}-${app}-${release}", 5.5-cli-stretch"
-# buildTags=' ' read -r -a array <<< "${tags}"
-for a in ${apps}; do
+
+for app in ${apps}; do
+    tag="${maintainer}/php:${version}-${app}-${release}"
     docker build \
-        -t ${version}-${app}-${release} \
-        -f ${version}/${app}/${release}/Dockerfile \
-        ${version}/${app}/${release} 
+        -t ${tag} \
+        -f ${version}/${release}/${app}/Dockerfile \
+        ${version}/${release}/${app}
+    docker push ${tag}
 done
